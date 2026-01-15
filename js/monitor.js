@@ -2,9 +2,13 @@
 const STORAGE_KEY_API_URL = "cli_proxy_api_url";
 const STORAGE_KEY_SECRET = "cli_proxy_secret_key";
 const STORAGE_KEY_LANG = "cli_proxy_language";
+const STORAGE_KEY_THEME = "cli_proxy_theme";
 
 // 默认语言
 const DEFAULT_LANG = localStorage.getItem(STORAGE_KEY_LANG) || "zh";
+
+// 默认主题（dark 为夜间模式，light 为日间模式）
+const DEFAULT_THEME = localStorage.getItem(STORAGE_KEY_THEME) || "dark";
 
 // 从 localStorage 读取配置，无默认值
 const DEFAULT_API_URL = localStorage.getItem(STORAGE_KEY_API_URL) || "";
@@ -91,6 +95,27 @@ Chart.Tooltip.positioners.smartPosition = function(elements, eventPosition) {
 
   return { x, y };
 };
+
+// 设置 Chart.js 全局默认 tooltip 样式
+function updateChartGlobalDefaults() {
+  const isLight = document.documentElement.getAttribute("data-theme") === "light";
+  if (isLight) {
+    Chart.defaults.plugins.tooltip.backgroundColor = "rgba(255, 255, 255, 0.96)";
+    Chart.defaults.plugins.tooltip.titleColor = "#1e3a5f";
+    Chart.defaults.plugins.tooltip.bodyColor = "#1e3a5f";
+    Chart.defaults.plugins.tooltip.borderColor = "#c8daf5";
+    Chart.defaults.plugins.tooltip.borderWidth = 1;
+  } else {
+    Chart.defaults.plugins.tooltip.backgroundColor = "rgba(12, 19, 39, 0.95)";
+    Chart.defaults.plugins.tooltip.titleColor = "#e7f2ff";
+    Chart.defaults.plugins.tooltip.bodyColor = "#e7f2ff";
+    Chart.defaults.plugins.tooltip.borderColor = "rgba(94, 125, 170, 0.35)";
+    Chart.defaults.plugins.tooltip.borderWidth = 1;
+  }
+}
+
+// 初始化时设置默认值
+updateChartGlobalDefaults();
 
 // ==================== 国际化翻译字典 ====================
 const i18n = {
@@ -292,6 +317,10 @@ const i18n = {
     // 语言按钮
     chinese: "中文",
     english: "English",
+
+    // 主题切换
+    "theme-to-light": "切换到日间模式",
+    "theme-to-dark": "切换到夜间模式",
   },
   en: {
     // Page Title and Header
@@ -491,6 +520,10 @@ const i18n = {
     // Language Button
     chinese: "中文",
     english: "English",
+
+    // Theme Toggle
+    "theme-to-light": "Switch to Light Mode",
+    "theme-to-dark": "Switch to Dark Mode",
   }
 };
 
@@ -627,6 +660,126 @@ function setLanguage(lang) {
 function toggleLanguage() {
   const newLang = state.currentLang === "zh" ? "en" : "zh";
   setLanguage(newLang);
+}
+
+// 主题切换功能
+function isLightTheme() {
+  return document.documentElement.getAttribute("data-theme") === "light";
+}
+
+// 获取当前主题的 tooltip 样式
+function getTooltipStyle() {
+  if (isLightTheme()) {
+    return {
+      backgroundColor: "rgba(255, 255, 255, 0.95)",
+      titleColor: "#1e3a5f",
+      bodyColor: "#1e3a5f",
+      borderColor: "#d0e1f9",
+      borderWidth: 1,
+    };
+  }
+  return {
+    backgroundColor: "rgba(12, 19, 39, 0.95)",
+    titleColor: "#e7f2ff",
+    bodyColor: "#e7f2ff",
+    borderColor: "rgba(94, 125, 170, 0.35)",
+    borderWidth: 1,
+  };
+}
+
+// 获取当前主题的坐标轴样式
+function getAxisStyle() {
+  if (isLightTheme()) {
+    return {
+      tickColor: "#4a6fa5",
+      gridColor: "rgba(59, 130, 246, 0.1)",
+    };
+  }
+  return {
+    tickColor: "rgba(255,255,255,0.7)",
+    gridColor: "rgba(255,255,255,0.05)",
+  };
+}
+
+function initTheme() {
+  const theme = localStorage.getItem(STORAGE_KEY_THEME) || "dark";
+  applyTheme(theme);
+}
+
+function applyTheme(theme) {
+  if (theme === "light") {
+    document.documentElement.setAttribute("data-theme", "light");
+  } else {
+    document.documentElement.removeAttribute("data-theme");
+  }
+  localStorage.setItem(STORAGE_KEY_THEME, theme);
+  // 更新按钮 title
+  updateThemeButtonTitle(theme);
+  // 更新 Chart.js 全局默认样式
+  updateChartGlobalDefaults();
+  // 更新图表主题样式
+  updateChartsTheme();
+}
+
+function toggleTheme() {
+  const currentTheme = document.documentElement.getAttribute("data-theme");
+  const newTheme = currentTheme === "light" ? "dark" : "light";
+  applyTheme(newTheme);
+}
+
+function updateThemeButtonTitle(theme) {
+  const btn = document.getElementById("theme-toggle-btn");
+  if (btn) {
+    const title = theme === "light" ? t("theme-to-dark") : t("theme-to-light");
+    btn.setAttribute("title", title);
+  }
+}
+
+// 更新所有图表的主题样式
+function updateChartsTheme() {
+  const tooltipStyle = getTooltipStyle();
+  const axisStyle = getAxisStyle();
+
+  // 更新趋势图
+  if (trendChart) {
+    trendChart.options.plugins.tooltip = {
+      ...trendChart.options.plugins.tooltip,
+      ...tooltipStyle,
+    };
+    trendChart.options.scales.x.ticks.color = axisStyle.tickColor;
+    trendChart.options.scales.x.grid.color = axisStyle.gridColor;
+    trendChart.options.scales.y.ticks.color = isLightTheme() ? "#14b8a6" : "rgba(78, 240, 195, 0.9)";
+    trendChart.options.scales.y.grid.color = axisStyle.gridColor;
+    trendChart.options.scales.y1.ticks.color = axisStyle.tickColor;
+    trendChart.update();
+  }
+
+  // 更新小时级 Token 用量图
+  if (hourlyChart) {
+    hourlyChart.options.plugins.tooltip = {
+      ...hourlyChart.options.plugins.tooltip,
+      ...tooltipStyle,
+    };
+    hourlyChart.options.scales.x.ticks.color = axisStyle.tickColor;
+    hourlyChart.options.scales.x.grid.color = axisStyle.gridColor;
+    hourlyChart.options.scales.y.ticks.color = axisStyle.tickColor;
+    hourlyChart.options.scales.y.grid.color = axisStyle.gridColor;
+    hourlyChart.update();
+  }
+
+  // 更新小时级模型请求图
+  if (hourlyModelChart) {
+    hourlyModelChart.options.plugins.tooltip = {
+      ...hourlyModelChart.options.plugins.tooltip,
+      ...tooltipStyle,
+    };
+    hourlyModelChart.options.scales.x.ticks.color = axisStyle.tickColor;
+    hourlyModelChart.options.scales.x.grid.color = axisStyle.gridColor;
+    hourlyModelChart.options.scales.y.ticks.color = axisStyle.tickColor;
+    hourlyModelChart.options.scales.y.grid.color = axisStyle.gridColor;
+    hourlyModelChart.options.scales.y1.ticks.color = axisStyle.tickColor;
+    hourlyModelChart.update();
+  }
 }
 
 function updateLanguageDisplay() {
@@ -1113,6 +1266,15 @@ function initApp() {
   if (langToggleBtn) {
     langToggleBtn.addEventListener("click", toggleLanguage);
   }
+
+  // 主题切换按钮事件监听
+  const themeToggleBtn = document.getElementById("theme-toggle-btn");
+  if (themeToggleBtn) {
+    themeToggleBtn.addEventListener("click", toggleTheme);
+  }
+
+  // 初始化主题
+  initTheme();
 
   // 初始化语言显示
   updateLanguageDisplay();
@@ -1627,7 +1789,7 @@ function updateTrendChart(details) {
         legend: {
           position: "bottom",
           labels: {
-            color: "rgba(255,255,255,0.8)",
+            color: isLightTheme() ? "#4a6fa5" : "rgba(255,255,255,0.8)",
             boxWidth: 12,
             boxHeight: 12,
             generateLabels: function(chart) {
@@ -1640,7 +1802,7 @@ function updateTrendChart(details) {
                   text: dataset.label,
                   fillStyle: color,
                   strokeStyle: color,
-                  fontColor: "rgba(255,255,255,0.8)",
+                  fontColor: isLightTheme() ? "#4a6fa5" : "rgba(255,255,255,0.8)",
                   lineWidth: 0,
                   hidden: !chart.isDatasetVisible(i),
                   datasetIndex: i,
@@ -1654,6 +1816,7 @@ function updateTrendChart(details) {
         tooltip: {
           position: "smartPosition",
           yAlign: "center",
+          ...getTooltipStyle(),
           callbacks: {
             beforeBody(context) {
               // 动态设置 xAlign：根据数据点位置决定左右
@@ -1683,19 +1846,19 @@ function updateTrendChart(details) {
       scales: {
         x: {
           stacked: true,
-          ticks: { color: "rgba(255,255,255,0.6)" },
-          grid: { color: "rgba(255,255,255,0.05)" },
+          ticks: { color: getAxisStyle().tickColor },
+          grid: { color: getAxisStyle().gridColor },
         },
         y: {
           position: "left",
-          ticks: { color: "rgba(78, 240, 195, 0.9)" },
-          grid: { color: "rgba(255,255,255,0.05)" },
+          ticks: { color: isLightTheme() ? "#14b8a6" : "rgba(78, 240, 195, 0.9)" },
+          grid: { color: getAxisStyle().gridColor },
         },
         y1: {
           position: "right",
           stacked: true,
           ticks: {
-            color: "rgba(255,255,255,0.6)",
+            color: getAxisStyle().tickColor,
             callback: (value) => `${value}k`,
           },
           grid: { drawOnChartArea: false },
@@ -1887,7 +2050,7 @@ function updateHourlyChart(details) {
         legend: {
           position: "bottom",
           labels: {
-            color: "rgba(255,255,255,0.8)",
+            color: isLightTheme() ? "#4a6fa5" : "rgba(255,255,255,0.8)",
             boxWidth: 12,
             boxHeight: 12,
             generateLabels: function(chart) {
@@ -1900,7 +2063,7 @@ function updateHourlyChart(details) {
                   text: dataset.label,
                   fillStyle: color,
                   strokeStyle: color,
-                  fontColor: "rgba(255,255,255,0.8)",
+                  fontColor: isLightTheme() ? "#4a6fa5" : "rgba(255,255,255,0.8)",
                   lineWidth: 0,
                   hidden: !chart.isDatasetVisible(i),
                   datasetIndex: i,
@@ -1912,6 +2075,7 @@ function updateHourlyChart(details) {
           },
         },
         tooltip: {
+          ...getTooltipStyle(),
           callbacks: {
             label(context) {
               const original =
@@ -1925,16 +2089,16 @@ function updateHourlyChart(details) {
       },
       scales: {
         x: {
-          ticks: { color: "rgba(255,255,255,0.7)" },
-          grid: { color: "rgba(255,255,255,0.05)" },
+          ticks: { color: getAxisStyle().tickColor },
+          grid: { color: getAxisStyle().gridColor },
         },
         y: {
           position: "left",
           ticks: {
-            color: "rgba(255,255,255,0.7)",
+            color: getAxisStyle().tickColor,
             callback: (value) => `${value}k`,
           },
-          grid: { color: "rgba(255,255,255,0.05)" },
+          grid: { color: getAxisStyle().gridColor },
         },
       },
     },
@@ -1947,7 +2111,8 @@ function updateModelHourlyChart(details) {
   if (!canvas) return;
   const ctx = canvas.getContext("2d");
   const series = buildHourlyModelChartData(details, state.modelHourRange);
-  if (!series.labels.length || !series.datasets.length) {
+  // 只要有时间标签就显示图表（至少显示成功率折线）
+  if (!series.labels.length) {
     if (hourlyModelChart) {
       hourlyModelChart.destroy();
       hourlyModelChart = null;
@@ -2026,7 +2191,7 @@ function updateModelHourlyChart(details) {
         legend: {
           position: "bottom",
           labels: {
-            color: "rgba(255,255,255,0.8)",
+            color: isLightTheme() ? "#4a6fa5" : "rgba(255,255,255,0.8)",
             boxWidth: 12,
             boxHeight: 12,
             generateLabels: function(chart) {
@@ -2039,7 +2204,7 @@ function updateModelHourlyChart(details) {
                   text: dataset.label,
                   fillStyle: color,
                   strokeStyle: color,
-                  fontColor: "rgba(255,255,255,0.8)",
+                  fontColor: isLightTheme() ? "#4a6fa5" : "rgba(255,255,255,0.8)",
                   lineWidth: 0,
                   hidden: !chart.isDatasetVisible(i),
                   datasetIndex: i,
@@ -2051,6 +2216,7 @@ function updateModelHourlyChart(details) {
           },
         },
         tooltip: {
+          ...getTooltipStyle(),
           callbacks: {
             label(context) {
               if (context.dataset.type === "line") {
@@ -2058,8 +2224,8 @@ function updateModelHourlyChart(details) {
                 if (value === null || value === undefined) return "";
                 return `${t("successRate")}：${value.toFixed(1)}%`;
               }
-              const rawValue = context.raw || 0;
-              if (!rawValue) return "";
+              const rawValue = context.raw;
+              if (rawValue === null || rawValue === undefined) return "";
               return `${context.dataset.label}：${formatNumber(rawValue)} ${t("times")}`;
             },
           },
@@ -2068,20 +2234,20 @@ function updateModelHourlyChart(details) {
       scales: {
         x: {
           stacked: true,
-          ticks: { color: "rgba(255,255,255,0.7)" },
-          grid: { color: "rgba(255,255,255,0.05)" },
+          ticks: { color: getAxisStyle().tickColor },
+          grid: { color: getAxisStyle().gridColor },
         },
         y: {
           stacked: true,
-          ticks: { color: "rgba(255,255,255,0.7)" },
-          grid: { color: "rgba(255,255,255,0.05)" },
+          ticks: { color: getAxisStyle().tickColor },
+          grid: { color: getAxisStyle().gridColor },
         },
         y1: {
           position: "right",
           beginAtZero: true,
           suggestedMax: 100,
           ticks: {
-            color: "rgba(255,255,255,0.7)",
+            color: getAxisStyle().tickColor,
             callback: (value) => `${value}%`,
           },
           grid: { drawOnChartArea: false },
@@ -2113,17 +2279,49 @@ function buildHourlyModelChartData(details, range = "all") {
     bucket.total += 1;
     if (!item.failed) bucket.success += 1;
   });
-  const sorted = Array.from(buckets.values()).sort(
-    (a, b) => a.timestamp - b.timestamp
-  );
-  let limited = sorted;
-  if (range !== "all") {
+
+  // 根据 range 生成完整的连续小时时间轴
+  let timeSlots = [];
+  if (range === "all") {
+    // 全部数据：使用原有数据的时间范围
+    timeSlots = Array.from(buckets.values()).sort(
+      (a, b) => a.timestamp - b.timestamp
+    );
+  } else {
+    // 最近 N 小时：基于当前时间生成连续时间轴
     const limit = Number(range);
-    limited = sorted.slice(-limit);
+    const now = new Date();
+    now.setMinutes(0, 0, 0);
+    for (let i = limit - 1; i >= 0; i--) {
+      const slotTime = new Date(now.getTime() - i * 60 * 60 * 1000);
+      const key = slotTime.getTime();
+      if (buckets.has(key)) {
+        timeSlots.push(buckets.get(key));
+      } else {
+        // 没有数据的小时也要填充
+        timeSlots.push({
+          timestamp: slotTime,
+          counts: new Map(),
+          success: 0,
+          total: 0,
+        });
+      }
+    }
   }
-  if (!limited.length) return { labels: [], datasets: [], successRates: [] };
+
+  if (!timeSlots.length) return { labels: [], datasets: [], successRates: [] };
+
+  // 生成时间标签
+  const labelBuckets = timeSlots.map((bucket) => ({
+    label: formatHourLabel(bucket.timestamp),
+    counts: bucket.counts,
+    success: bucket.success,
+    total: bucket.total,
+  }));
+
+  // 统计所有模型的总请求数，取 Top 6
   const totals = new Map();
-  limited.forEach((bucket) => {
+  timeSlots.forEach((bucket) => {
     bucket.counts.forEach((value, model) => {
       totals.set(model, (totals.get(model) || 0) + value);
     });
@@ -2132,20 +2330,23 @@ function buildHourlyModelChartData(details, range = "all") {
     .sort((a, b) => b[1] - a[1])
     .slice(0, 6)
     .map(([name]) => name);
-  if (!topModels.length)
-    return { labels: [], datasets: [], successRates: [] };
-  const labelBuckets = limited.map((bucket) => ({
-    label: formatHourLabel(bucket.timestamp),
-    counts: bucket.counts,
-    success: bucket.success,
-    total: bucket.total,
-  }));
-  const datasets = topModels.map((model) => ({
-    label: model,
-    data: labelBuckets.map((bucket) => bucket.counts.get(model) || 0),
-  }));
+
+  // 即使没有模型数据，也返回时间轴、占位柱状图和成功率折线（显示为0）
+  let datasets;
+  if (topModels.length) {
+    datasets = topModels.map((model) => ({
+      label: model,
+      data: labelBuckets.map((bucket) => bucket.counts.get(model) || 0),
+    }));
+  } else {
+    // 无模型数据时，创建一个占位数据集（全为0的柱状图）
+    datasets = [{
+      label: t("noData") || "暂无数据",
+      data: labelBuckets.map(() => 0),
+    }];
+  }
   const successRates = labelBuckets.map((bucket) => {
-    if (!bucket.total) return null;
+    if (!bucket.total) return 0; // 无数据时显示 0% 而不是 null
     return (bucket.success / bucket.total) * 100;
   });
   return {
@@ -2180,22 +2381,47 @@ function buildHourlySeries(details, range = "all") {
     bucket.cached += item.tokens.cached;
     bucket.requests += 1;
   });
-  const sorted = Array.from(buckets.values()).sort(
-    (a, b) => a.timestamp - b.timestamp
-  );
-  let limited = sorted;
-  if (range !== "all") {
+
+  // 根据 range 生成完整的连续小时时间轴
+  let timeSlots = [];
+  if (range === "all") {
+    // 全部数据：使用原有数据的时间范围
+    timeSlots = Array.from(buckets.values()).sort(
+      (a, b) => a.timestamp - b.timestamp
+    );
+  } else {
+    // 最近 N 小时：基于当前时间生成连续时间轴
     const limit = Number(range);
-    limited = sorted.slice(-limit);
+    const now = new Date();
+    now.setMinutes(0, 0, 0);
+    for (let i = limit - 1; i >= 0; i--) {
+      const slotTime = new Date(now.getTime() - i * 60 * 60 * 1000);
+      const key = slotTime.getTime();
+      if (buckets.has(key)) {
+        timeSlots.push(buckets.get(key));
+      } else {
+        // 没有数据的小时也要填充
+        timeSlots.push({
+          timestamp: slotTime,
+          label: formatHourLabel(slotTime),
+          input: 0,
+          output: 0,
+          reasoning: 0,
+          cached: 0,
+          requests: 0,
+        });
+      }
+    }
   }
+
   return {
-    labels: limited.map((item) => item.label),
-    input: limited.map((item) => item.input),
-    output: limited.map((item) => item.output),
-    reasoning: limited.map((item) => item.reasoning),
-    cached: limited.map((item) => item.cached),
-    total: limited.map((item) => item.input + item.output + item.reasoning + item.cached),
-    requests: limited.map((item) => item.requests),
+    labels: timeSlots.map((item) => item.label),
+    input: timeSlots.map((item) => item.input),
+    output: timeSlots.map((item) => item.output),
+    reasoning: timeSlots.map((item) => item.reasoning),
+    cached: timeSlots.map((item) => item.cached),
+    total: timeSlots.map((item) => item.input + item.output + item.reasoning + item.cached),
+    requests: timeSlots.map((item) => item.requests),
   };
 }
 
@@ -2959,10 +3185,8 @@ function formatDateKey(date) {
 }
 
 function formatHourLabel(date) {
-  const month = String(date.getMonth() + 1).padStart(2, "0");
-  const day = String(date.getDate()).padStart(2, "0");
   const hour = String(date.getHours()).padStart(2, "0");
-  return `${month}/${day} ${hour}:00`;
+  return `${hour}:00`;
 }
 
 function formatTimestamp(date) {

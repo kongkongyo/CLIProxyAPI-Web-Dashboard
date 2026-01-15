@@ -24,6 +24,600 @@
       --font-heading: "Space Grotesk", "Inter", "HarmonyOS Sans", "PingFang SC", "Microsoft YaHei", sans-serif;
       --font-body: "Inter", "HarmonyOS Sans", "PingFang SC", "Microsoft YaHei", sans-serif;
     }
+    /* 日间模式 */
+    [data-theme="light"] {
+      --bg: #f5f8fc;
+      --layer: #ffffff;
+      --layer-strong: #ffffff;
+      --border: #c8daf5;
+      --text: #2c5282;
+      --muted: #4a6fa5;
+      --dim: #8ba3c4;
+      --accent-blue: #3b82f6;
+      --accent-cyan: #14b8a6;
+      --accent-green: #22c55e;
+      --accent-purple: #8b5cf6;
+      --accent-pink: #ec4899;
+      --accent-orange: #f97316;
+      --accent-yellow: #d97706;
+      --danger: #ef4444;
+    }
+    [data-theme="light"] body {
+      background: var(--bg);
+    }
+    [data-theme="light"] .chart-card,
+    [data-theme="light"] .kpi-card,
+    [data-theme="light"] .modal-overlay .modal,
+    [data-theme="light"] .filters {
+      background: var(--layer);
+      box-shadow: 0 2px 8px rgba(59, 130, 246, 0.08);
+      border: 1px solid var(--border);
+    }
+    [data-theme="light"] .ghost-btn,
+    [data-theme="light"] .filter-input {
+      background: #ffffff;
+      border-color: var(--border);
+      color: var(--text);
+    }
+    [data-theme="light"] .ghost-btn:hover {
+      background: #e8f0fe;
+      border-color: var(--accent-blue);
+    }
+    [data-theme="light"] .time-btn {
+      background: #ffffff;
+      border-color: var(--border);
+      color: var(--muted);
+    }
+    [data-theme="light"] .time-btn:hover {
+      background: #e8f0fe;
+      color: var(--text);
+    }
+    [data-theme="light"] .time-btn.active {
+      background: rgba(59, 130, 246, 0.15);
+      border-color: rgba(59, 130, 246, 0.3);
+      color: #2563eb;
+      font-weight: 600;
+    }
+    [data-theme="light"] .apply-btn {
+      background: rgba(59, 130, 246, 0.15);
+      border: 1px solid rgba(59, 130, 246, 0.3);
+      color: #2563eb;
+      font-weight: 600;
+    }
+    [data-theme="light"] .apply-btn:hover {
+      background: rgba(59, 130, 246, 0.25);
+      border-color: rgba(59, 130, 246, 0.4);
+    }
+    [data-theme="light"] .refresh-btn {
+      background: rgba(59, 130, 246, 0.12);
+      border: 1px solid rgba(59, 130, 246, 0.25);
+      color: #2563eb;
+      box-shadow: 0 2px 8px rgba(59, 130, 246, 0.15);
+    }
+    [data-theme="light"] .eyebrow {
+      background: rgba(59, 130, 246, 0.1);
+      color: var(--accent-blue);
+    }
+    [data-theme="light"] .nav-pill {
+      background: transparent;
+      color: var(--muted);
+    }
+    [data-theme="light"] .nav-pill:hover {
+      background: #e8f0fe;
+      color: var(--text);
+    }
+    [data-theme="light"] .nav-pill.active {
+      background: rgba(59, 130, 246, 0.15);
+      color: var(--accent-blue);
+    }
+    [data-theme="light"] .kpi-card {
+      border-left: 4px solid var(--accent-blue);
+    }
+    [data-theme="light"] .kpi-card:nth-child(2) {
+      border-left-color: var(--accent-cyan);
+    }
+    [data-theme="light"] .kpi-card:nth-child(3) {
+      border-left-color: var(--accent-green);
+    }
+    [data-theme="light"] .kpi-card:nth-child(4) {
+      border-left-color: var(--accent-orange);
+    }
+    [data-theme="light"] .kpi-card:nth-child(5) {
+      border-left-color: var(--accent-purple);
+    }
+    [data-theme="light"] .filter-input {
+      background: #ffffff;
+    }
+    [data-theme="light"] .filter-input:focus {
+      border-color: var(--accent-blue);
+      box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.15);
+    }
+    [data-theme="light"] .sidebar {
+      background: #ffffff;
+      border-right: 1px solid var(--border);
+    }
+    [data-theme="light"] .sidebar-item {
+      color: var(--muted);
+    }
+    [data-theme="light"] .sidebar-item:hover {
+      background: #e8f0fe;
+      color: var(--text);
+    }
+    [data-theme="light"] .sidebar-item.active {
+      background: rgba(59, 130, 246, 0.15);
+      color: var(--accent-blue);
+    }
+    [data-theme="light"] table th {
+      background: #f0f7ff;
+      color: var(--muted);
+      border-bottom: 1px solid var(--border);
+    }
+    [data-theme="light"] table td {
+      border-bottom: 1px solid var(--border);
+      color: var(--text);
+    }
+    [data-theme="light"] table tr:hover td {
+      background: #f0f7ff;
+    }
+    [data-theme="light"] .tag {
+      background: rgba(59, 130, 246, 0.12);
+      color: var(--accent-blue);
+    }
+    [data-theme="light"] .status-dot.success {
+      background: var(--accent-green);
+    }
+    [data-theme="light"] .status-dot.failed {
+      background: var(--danger);
+    }
+    [data-theme="light"] .theme-toggle:hover {
+      border-color: var(--accent-blue);
+      color: var(--accent-blue);
+    }
+    [data-theme="light"] .modal-overlay {
+      background: rgba(59, 130, 246, 0.2);
+    }
+    [data-theme="light"] .chart-empty {
+      color: var(--muted);
+      background: #f0f7ff;
+    }
+    [data-theme="light"] .provider-status-header,
+    [data-theme="light"] .expand-detail-header {
+      background: #f0f7ff;
+      color: var(--muted);
+    }
+    [data-theme="light"] .provider-row:hover {
+      background: #f0f7ff;
+    }
+    [data-theme="light"] .expand-detail-row:hover {
+      background: #f0f7ff;
+    }
+    [data-theme="light"] .log-table th {
+      background: #f0f7ff;
+      color: var(--muted);
+    }
+    [data-theme="light"] .log-table tr:hover {
+      background: #f0f7ff;
+    }
+    [data-theme="light"] .disable-model-btn {
+      background: rgba(239, 68, 68, 0.1);
+      color: var(--danger);
+      border-color: rgba(239, 68, 68, 0.3);
+    }
+    [data-theme="light"] .disable-model-btn:hover {
+      background: var(--danger);
+      color: #ffffff;
+    }
+    [data-theme="light"] .chart-card-header p {
+      color: var(--muted);
+    }
+    [data-theme="light"] .kpi-title {
+      color: var(--muted);
+    }
+    [data-theme="light"] .kpi-value {
+      color: var(--text);
+    }
+    [data-theme="light"] .kpi-sub {
+      color: var(--muted);
+    }
+    [data-theme="light"] ::placeholder {
+      color: var(--dim);
+    }
+    [data-theme="light"] select {
+      background: #ffffff;
+      border-color: var(--border);
+      color: var(--text);
+    }
+    [data-theme="light"] select:focus {
+      border-color: var(--accent-blue);
+    }
+    [data-theme="light"] .error-message {
+      background: rgba(239, 68, 68, 0.1);
+      border-color: rgba(239, 68, 68, 0.3);
+      color: var(--danger);
+    }
+    [data-theme="light"] .success-message {
+      background: rgba(34, 197, 94, 0.1);
+      border-color: rgba(34, 197, 94, 0.3);
+      color: var(--accent-green);
+    }
+    /* 日间模式 - 覆盖黑色阴影 */
+    [data-theme="light"] .kpi-card {
+      box-shadow: 0 2px 8px rgba(59, 130, 246, 0.1);
+    }
+    [data-theme="light"] .chart-card {
+      box-shadow: 0 2px 8px rgba(59, 130, 246, 0.1);
+    }
+    [data-theme="light"] .kpi-card::after {
+      display: none;
+    }
+    [data-theme="light"] .tag {
+      background: rgba(59, 130, 246, 0.1);
+      color: var(--accent-blue);
+    }
+    [data-theme="light"] .nav-bar {
+      background: #ffffff;
+      border-bottom: 1px solid var(--border);
+      box-shadow: 0 2px 8px rgba(59, 130, 246, 0.08);
+    }
+    [data-theme="light"] .nav-bar::before {
+      display: none;
+    }
+    [data-theme="light"] .fixed-refresh-btn {
+      background: #ffffff;
+      border: 1px solid var(--border);
+      color: var(--accent-blue);
+      box-shadow: 0 4px 16px rgba(59, 130, 246, 0.12);
+    }
+    [data-theme="light"] .fixed-refresh-btn:hover {
+      background: rgba(59, 130, 246, 0.08);
+      border-color: var(--accent-blue);
+      box-shadow: 0 6px 20px rgba(59, 130, 246, 0.18);
+    }
+    [data-theme="light"] .modal-content {
+      background: #ffffff;
+      border: 1px solid var(--border);
+      box-shadow: 0 8px 32px rgba(59, 130, 246, 0.15);
+    }
+    [data-theme="light"] .modal-header {
+      border-bottom: 1px solid var(--border);
+    }
+    [data-theme="light"] .modal-close {
+      color: var(--muted);
+    }
+    [data-theme="light"] .modal-close:hover {
+      color: var(--danger);
+    }
+    [data-theme="light"] .settings-input {
+      background: #ffffff;
+      border-color: var(--border);
+      color: var(--text);
+    }
+    [data-theme="light"] .settings-input:focus {
+      border-color: var(--accent-blue);
+      box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.15);
+    }
+    [data-theme="light"] .settings-save {
+      background: rgba(59, 130, 246, 0.15);
+      border: 1px solid rgba(59, 130, 246, 0.3);
+      color: #2563eb;
+      font-weight: 600;
+    }
+    [data-theme="light"] .settings-save:hover {
+      background: rgba(59, 130, 246, 0.25);
+      border-color: rgba(59, 130, 246, 0.4);
+    }
+    [data-theme="light"] .status-banner {
+      background: rgba(59, 130, 246, 0.1);
+      border-color: var(--border);
+    }
+    [data-theme="light"] .status-banner.error {
+      background: rgba(239, 68, 68, 0.1);
+      border-color: rgba(239, 68, 68, 0.3);
+    }
+    [data-theme="light"] .status-banner.success {
+      background: rgba(34, 197, 94, 0.1);
+      border-color: rgba(34, 197, 94, 0.3);
+    }
+    [data-theme="light"] .provider-expand-detail {
+      background: #f0f7ff;
+      border-color: var(--border);
+    }
+    [data-theme="light"] .expand-detail-row {
+      border-bottom-color: var(--border);
+    }
+    [data-theme="light"] .model-tag {
+      background: rgba(59, 130, 246, 0.1);
+      color: var(--accent-blue);
+    }
+    [data-theme="light"] .model-tag.disabled {
+      background: rgba(239, 68, 68, 0.1);
+      color: var(--danger);
+    }
+    [data-theme="light"] .warning-tag {
+      background: rgba(234, 179, 8, 0.1);
+      color: #b45309;
+    }
+    [data-theme="light"] .error-tag {
+      background: rgba(239, 68, 68, 0.1);
+      color: var(--danger);
+    }
+    [data-theme="light"] .success-tag {
+      background: rgba(34, 197, 94, 0.1);
+      color: var(--accent-green);
+    }
+    [data-theme="light"] .provider-row {
+      border-bottom-color: var(--border);
+    }
+    [data-theme="light"] .bar-segment {
+      opacity: 0.9;
+    }
+    [data-theme="light"] .github-link {
+      color: var(--muted);
+    }
+    [data-theme="light"] .github-link:hover {
+      color: var(--accent-blue);
+    }
+    [data-theme="light"] .footer {
+      color: var(--muted);
+    }
+    [data-theme="light"] .log-table {
+      background: #ffffff;
+    }
+    [data-theme="light"] .log-table td {
+      color: var(--text);
+      border-bottom-color: var(--border);
+    }
+    [data-theme="light"] .pagination-btn {
+      background: #ffffff;
+      border-color: var(--border);
+      color: var(--muted);
+    }
+    [data-theme="light"] .pagination-btn:hover:not(:disabled) {
+      background: #e8f0fe;
+      border-color: var(--accent-blue);
+      color: var(--accent-blue);
+    }
+    [data-theme="light"] .pagination-btn.active {
+      background: rgba(59, 130, 246, 0.15);
+      border-color: rgba(59, 130, 246, 0.3);
+      color: #2563eb;
+      font-weight: 600;
+    }
+    [data-theme="light"] .pagination-btn:disabled {
+      background: #f0f7ff;
+      color: var(--dim);
+    }
+    [data-theme="light"] .scroll-hint {
+      background: linear-gradient(to right, transparent, rgba(59, 130, 246, 0.1));
+    }
+    [data-theme="light"] h1,
+    [data-theme="light"] h2,
+    [data-theme="light"] h3 {
+      color: var(--text);
+    }
+    [data-theme="light"] .header-left p {
+      color: var(--muted);
+    }
+    /* 日间模式 - 环形图样式 */
+    [data-theme="light"] .donut-canvas-small,
+    [data-theme="light"] .donut-canvas {
+      background: radial-gradient(circle at 30% 30%, rgba(59, 130, 246, 0.08), rgba(240, 247, 255, 0.95));
+      border-color: var(--border);
+    }
+    [data-theme="light"] .donut-center .label {
+      color: var(--text);
+    }
+    /* 日间模式 - 下拉选择框 */
+    [data-theme="light"] .log-filter-select {
+      background: #ffffff url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%234a6fa5' d='M3 4.5L6 8l3-3.5H3z'/%3E%3C/svg%3E") no-repeat right 8px center;
+      border-color: var(--border);
+      color: var(--muted);
+    }
+    [data-theme="light"] .log-filter-select:hover {
+      border-color: var(--accent-blue);
+    }
+    [data-theme="light"] .log-filter-select:focus {
+      border-color: var(--accent-blue);
+      color: var(--text);
+    }
+    [data-theme="light"] .log-filter-select option {
+      background: #ffffff;
+      color: var(--text);
+    }
+    [data-theme="light"] .log-filter-select::-webkit-scrollbar-track {
+      background: #f5f8fc;
+    }
+    [data-theme="light"] .log-filter-select::-webkit-scrollbar-thumb {
+      background: rgba(59, 130, 246, 0.3);
+    }
+    [data-theme="light"] .log-filter-select::-webkit-scrollbar-thumb:hover {
+      background: rgba(59, 130, 246, 0.5);
+    }
+    /* 日间模式 - 日期选择器 */
+    [data-theme="light"] .date-input {
+      background: #ffffff;
+      border-color: var(--border);
+      color: var(--text);
+    }
+    [data-theme="light"] .date-input:hover {
+      border-color: var(--accent-blue);
+    }
+    [data-theme="light"] .date-input:focus {
+      border-color: var(--accent-cyan);
+    }
+    [data-theme="light"] .date-input::-webkit-calendar-picker-indicator {
+      filter: invert(0.4) sepia(1) saturate(3) hue-rotate(190deg);
+    }
+    [data-theme="light"] .date-apply-btn {
+      background: rgba(20, 184, 166, 0.15);
+      border: 1px solid rgba(20, 184, 166, 0.3);
+      color: #0d9488;
+      font-weight: 600;
+    }
+    [data-theme="light"] .custom-date-picker {
+      background: rgba(59, 130, 246, 0.05);
+      border-color: var(--border);
+    }
+    /* 日间模式 - 时间按钮组 */
+    [data-theme="light"] .time-group {
+      background: rgba(59, 130, 246, 0.05);
+      border-color: var(--border);
+    }
+    /* 日间模式 - 表格滚动条 */
+    [data-theme="light"] .table-wrapper::-webkit-scrollbar-track {
+      background: #f5f8fc;
+    }
+    [data-theme="light"] .table-wrapper::-webkit-scrollbar-thumb {
+      background: rgba(59, 130, 246, 0.3);
+    }
+    [data-theme="light"] .table-wrapper::-webkit-scrollbar-thumb:hover {
+      background: rgba(59, 130, 246, 0.5);
+    }
+    [data-theme="light"] .table-wrapper {
+      border-color: var(--border);
+    }
+    /* 日间模式 - 表格行悬停 */
+    [data-theme="light"] tbody tr:hover {
+      background-color: rgba(59, 130, 246, 0.08);
+    }
+    /* 日间模式 - 排名/来源列表 */
+    [data-theme="light"] .ranking-item {
+      background: #f5f8fc;
+      border-color: var(--border);
+      color: var(--muted);
+    }
+    [data-theme="light"] .ranking-item strong {
+      color: var(--text);
+    }
+    /* 日间模式 - 图例项 */
+    [data-theme="light"] .legend-item {
+      background: #f5f8fc;
+      border-color: var(--border);
+    }
+    [data-theme="light"] .legend-item span {
+      color: var(--muted);
+    }
+    /* 日间模式 - 复制按钮 */
+    [data-theme="light"] .copy-auth {
+      background: rgba(59, 130, 246, 0.08);
+      border-color: var(--border);
+      color: var(--text);
+    }
+    [data-theme="light"] .copy-auth:hover {
+      border-color: var(--accent-blue);
+      color: var(--accent-blue);
+    }
+    /* 日间模式 - 错误日志内容 */
+    [data-theme="light"] .error-log-content {
+      background: #f5f8fc;
+      border-color: var(--border);
+      color: var(--text);
+    }
+    [data-theme="light"] .error-log-item {
+      background: #f5f8fc;
+      border-color: var(--border);
+    }
+    [data-theme="light"] .error-log-item:hover {
+      border-color: var(--accent-blue);
+      background: rgba(59, 130, 246, 0.08);
+    }
+    [data-theme="light"] .error-log-item-name {
+      color: var(--text);
+    }
+    [data-theme="light"] .error-log-item-meta {
+      color: var(--dim);
+    }
+    /* 日间模式 - 摘要区域 */
+    [data-theme="light"] .summary-value {
+      background: #f5f8fc;
+      border-color: var(--border);
+      color: var(--text);
+    }
+    /* 日间模式 - 渠道模型详情 */
+    [data-theme="light"] .channel-model-item {
+      background: rgba(59, 130, 246, 0.04);
+      border-color: var(--border);
+    }
+    [data-theme="light"] .channel-model-item:hover {
+      background: rgba(59, 130, 246, 0.08);
+      border-color: var(--accent-blue);
+    }
+    [data-theme="light"] .channel-model-name {
+      color: var(--text);
+    }
+    /* 日间模式 - 失败模型标签 */
+    [data-theme="light"] .failure-model-tag {
+      background: rgba(239, 68, 68, 0.1);
+      border-color: rgba(239, 68, 68, 0.25);
+      color: var(--text);
+    }
+    [data-theme="light"] .failure-model-tag-full {
+      background: rgba(239, 68, 68, 0.08);
+      border-color: rgba(239, 68, 68, 0.2);
+    }
+    /* 日间模式 - 侧边导航 */
+    [data-theme="light"] .side-nav-item {
+      background: #ffffff;
+      border-color: var(--border);
+    }
+    [data-theme="light"] .side-nav-item:hover {
+      background: rgba(59, 130, 246, 0.08);
+    }
+    [data-theme="light"] .side-nav-item.active {
+      background: rgba(20, 184, 166, 0.1);
+      border-color: var(--accent-cyan);
+    }
+    [data-theme="light"] .side-nav-label {
+      color: var(--muted);
+    }
+    [data-theme="light"] .side-nav-item:hover .side-nav-label {
+      color: var(--text);
+    }
+    [data-theme="light"] .side-nav-item.active .side-nav-label {
+      color: var(--accent-cyan);
+    }
+    [data-theme="light"] .side-nav-dot {
+      background: var(--dim);
+    }
+    [data-theme="light"] .side-nav-item:hover .side-nav-dot {
+      background: var(--accent-blue);
+    }
+    [data-theme="light"] .side-nav-item.active .side-nav-dot {
+      background: var(--accent-cyan);
+    }
+    /* 日间模式 - 图表背景 */
+    [data-theme="light"] .chart-surface {
+      background: radial-gradient(circle at top, rgba(59, 130, 246, 0.06), transparent 60%);
+    }
+    [data-theme="light"] .chart-empty {
+      background: rgba(59, 130, 246, 0.04);
+    }
+    /* 日间模式 - 筛选器 */
+    [data-theme="light"] .filters {
+      box-shadow: 0 4px 16px rgba(59, 130, 246, 0.1);
+    }
+    /* 日间模式 - 分页按钮 */
+    [data-theme="light"] .page-btn {
+      background: #ffffff;
+      border-color: var(--border);
+      color: var(--muted);
+    }
+    [data-theme="light"] .page-btn:hover:not(:disabled) {
+      background: rgba(59, 130, 246, 0.08);
+      border-color: var(--accent-blue);
+      color: var(--accent-blue);
+    }
+    [data-theme="light"] .page-btn.active {
+      background: rgba(59, 130, 246, 0.15);
+      border-color: rgba(59, 130, 246, 0.3);
+      color: #2563eb;
+      font-weight: 600;
+    }
+    [data-theme="light"] .page-btn:disabled {
+      background: #f5f8fc;
+      color: var(--dim);
+      opacity: 0.6;
+    }
     * { box-sizing: border-box; margin: 0; padding: 0; }
     body {
       min-height: 100vh;
@@ -122,6 +716,47 @@
     }
     .lang-btn:hover .lang-option:not(.active) {
       color: var(--text);
+    }
+    /* 主题切换按钮 */
+    .theme-toggle {
+      border-radius: 12px;
+      border: 1px solid var(--border);
+      background: var(--layer);
+      color: var(--text);
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 42px;
+      height: 42px;
+      cursor: pointer;
+      transition: 0.25s ease;
+    }
+    .theme-toggle:hover {
+      border-color: var(--accent-yellow);
+      color: var(--accent-yellow);
+    }
+    .theme-toggle svg {
+      width: 20px;
+      height: 20px;
+    }
+    .theme-toggle .icon-sun,
+    .theme-toggle .icon-moon {
+      display: none;
+    }
+    /* 夜间模式显示太阳图标（点击切换到日间） */
+    .theme-toggle .icon-sun {
+      display: block;
+    }
+    /* 日间模式显示月亮图标（点击切换到夜间） */
+    [data-theme="light"] .theme-toggle .icon-sun {
+      display: none;
+    }
+    [data-theme="light"] .theme-toggle .icon-moon {
+      display: block;
+    }
+    [data-theme="light"] .theme-toggle:hover {
+      border-color: var(--accent-purple);
+      color: var(--accent-purple);
     }
     @keyframes spin {
       from { transform: rotate(0deg); }
@@ -1638,6 +2273,22 @@
         <span id="lang-zh" class="lang-option active">中</span>
         <span class="lang-divider">/</span>
         <span id="lang-en" class="lang-option">EN</span>
+      </button>
+      <button class="theme-toggle" id="theme-toggle-btn" title="切换主题" data-i18n-title="theme-toggle-title">
+        <svg class="icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="12" cy="12" r="5"></circle>
+          <line x1="12" y1="1" x2="12" y2="3"></line>
+          <line x1="12" y1="21" x2="12" y2="23"></line>
+          <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+          <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+          <line x1="1" y1="12" x2="3" y2="12"></line>
+          <line x1="21" y1="12" x2="23" y2="12"></line>
+          <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+          <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+        </svg>
+        <svg class="icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+        </svg>
       </button>
       <a class="ghost-btn" href="https://github.com/kongkongyo/CLIProxyAPI-Web-Dashboard" target="_blank" rel="noopener noreferrer" title="GitHub">
         <svg viewBox="0 0 24 24" fill="currentColor" width="18" height="18">
