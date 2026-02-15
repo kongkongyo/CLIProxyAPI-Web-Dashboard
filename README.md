@@ -43,10 +43,6 @@ CLIProxyAPI 监控中心是一个单页面监控仪表板，专为 CLIProxyAPI �
 
 ### 🚀 快速开始
 
-#### 为什么没有在线版本？
-
-CLIProxyAPI 的管理接口（`/v0/management/*`）出于安全考虑禁用了 CORS，不允许浏览器跨域访问。因此在线部署的 Dashboard 无法调用 API。
-
 #### 使用方法
 
 1. **下载项目**
@@ -235,10 +231,6 @@ CLIProxyAPI Monitor Center is a powerful single-page monitoring dashboard design
 - Modern browser (Chrome, Firefox, Safari, Edge, etc.)
 
 ### 🚀 Quick Start
-
-#### Why No Online Version?
-
-CLIProxyAPI's management endpoints (`/v0/management/*`) have CORS disabled for security reasons, preventing browser cross-origin access. Therefore, an online deployed Dashboard cannot call the API.
 
 #### Usage
 

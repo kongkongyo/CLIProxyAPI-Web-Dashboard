@@ -3321,6 +3321,7 @@ function wrapSecretDim(text) {
 function initSideNav() {
   const navItems = document.querySelectorAll(".side-nav-item");
   const sections = [];
+  let allowUrlUpdate = false; // 初始禁用 URL 更新，防止刷新时覆盖用户保存的 view 参数
 
   // 收集所有导航区块
   navItems.forEach((item) => {
@@ -3356,8 +3357,15 @@ function initSideNav() {
   if (viewParam) {
     const target = document.getElementById("nav-" + viewParam);
     if (target) {
-      setTimeout(() => target.scrollIntoView({ behavior: "smooth", block: "start" }), 100);
+      setTimeout(() => {
+        target.scrollIntoView({ behavior: "smooth", block: "start" });
+        setTimeout(() => { allowUrlUpdate = true; }, 500); // 滚动完成后启用 URL 更新
+      }, 100);
+    } else {
+      setTimeout(() => { allowUrlUpdate = true; }, 300);
     }
+  } else {
+    setTimeout(() => { allowUrlUpdate = true; }, 300);
   }
 
   // 滚动监听，高亮当前可见区块
@@ -3399,16 +3407,17 @@ function initSideNav() {
     navItems.forEach((item) => item.classList.remove("active"));
     if (activeSection) {
       activeSection.classList.add("active");
-      // 自动更新 URL 参数
-      const targetId = activeSection.dataset.target;
-      if (targetId) {
-        const viewName = getViewName(targetId);
-        const url = new URL(window.location);
-        const currentView = url.searchParams.get("view");
-        // 只有当 view 参数变化时才更新 URL，避免不必要的历史记录操作
-        if (currentView !== viewName) {
-          url.searchParams.set("view", viewName);
-          history.replaceState(null, "", url);
+      // 自动更新 URL 参数（仅在允许时）
+      if (allowUrlUpdate) {
+        const targetId = activeSection.dataset.target;
+        if (targetId) {
+          const viewName = getViewName(targetId);
+          const url = new URL(window.location);
+          const currentView = url.searchParams.get("view");
+          if (currentView !== viewName) {
+            url.searchParams.set("view", viewName);
+            history.replaceState(null, "", url);
+          }
         }
       }
     }
